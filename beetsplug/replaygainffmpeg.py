@@ -143,7 +143,7 @@ class FfmpegBackend(Backend):
     """
     def __init__(self, config, log):
         super(FfmpegBackend, self).__init__(config, log)
-        self._ffmpeg_path = "ffmpeg"
+        self._ffmpeg_path = config['ffmpeg_path'].as_str()
 
         # check that ffmpeg is installed
         try:
@@ -393,13 +393,14 @@ class ReplayGainFfmpegPlugin(BeetsPlugin):
     }
 
     def __init__(self):
-        super(ReplayGainFfmpegPlugin, self).__init__()
+        super(ReplayGainFfmpegPlugin, self).__init__(name='replaygain')
 
         # default backend is 'command' for backward-compatibility.
         self.config.add({
             'overwrite': False,
             'auto': True,
             'backend': u'ffmpeg',
+            'ffmpeg_path': 'ffmpeg',
             'per_disc': False,
             'peak': 'true',
             'targetlevel': 89,
